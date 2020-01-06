@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+</head>
+<body>
+  <h2 class="hl">Update CSS Variables with JS</h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input id="blur" type="range" name="blur" min="0" max="25" value="2" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input id="base" type="color" name="base" value="#e72a52">
+  </div>
+
+  <img src="https://cdn.pixabay.com/photo/2013/07/21/13/00/rose-165819__340.jpg">
+
+  <style>
+
+    :root {
+      --base: #e72a52;
+      --blur: 2px;
+      --spacing: 10px;
+    }
+
+    img{
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl{
+      color: var(--base);
+      padding: var(--spacing);
+      /*background: var(--base);*/
+      filter: blur(var(--blur));
+    }
+
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+
+    body {
+      text-align: center;
+      background: url("https://images.unsplash.com/photo-1543964496-d83d90140d97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+      font-size: 50px;
+    }
+
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width: 100px;
+    }
+  </style>
+
+  <script>
+
+    const inputs=document.querySelectorAll('.controls input');
+
+    function handleUpdate(){
+      const suffix = this.dataset.sizing || '';
+      console.log(this.name);
+      document.documentElement.style.setProperty(`--${this.name}`,this.value+suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('change',handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove',handleUpdate));
+
+    
+
+  </script>
+
+</body>
+</html>
